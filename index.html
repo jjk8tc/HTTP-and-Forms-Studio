@@ -2,18 +2,72 @@
 
 <head>
 	<meta charset="utf-8">
+	<style>
+		body {
+			background-color: rgb(26, 206, 212);
+		}
+
+		input[name="q"]{
+			margin-bottom: 5mm;
+		}
+		
+		input[value="Go!"]{
+			background-color:rgb(8, 252, 8);
+			margin-top: 5mm;
+		}
+		
+	</style>
+
 	<script>
-		// TODO: create a handler
+		let setSearchEngine = function(){
+			if(document.querySelector("input[name=engine]:checked") === null){
+				alert("All fields are required!");
+            	// stop the form submission
+            	event.preventDefault();
+				return
+			}
+			let selectedSearchEngine=document.querySelector("input[name=engine]:checked").value;
+			let searchTerm=document.querySelector("input[name=q]").value;
+
+			let actions = {
+				"google": "https://www.google.com/search?q=",
+				"duck": "https://duckduckgo.com/?q=",
+				"bing": "https://www.bing.com//search?q=",
+				"ask": "https://www.ask.com/web?q="
+			}
+			let actionURL=actions[selectedSearchEngine]+searchTerm;
+			console.log(actionURL);
+
+			if (selectedSearchEngine === null || searchTerm === "") {
+          		alert("All fields are required!");
+            	// stop the form submission
+            	event.preventDefault();
+			}
+			let form = document.querySelector("form");
+			form.setAttribute("action",actionURL);
+		};
+
     window.addEventListener("load", function(){
         // TODO: register the handler
+		let form = document.querySelector("form");
+		form.addEventListener("submit", setSearchEngine); 
+		
+			
     });
 	</script>
 </head>
 
 <body>
 
-	<form id="searchForm">
-    <!-- TODO: add form elements -->
+	<form id="searchForm" method="GET">
+		<input type="text" name="q">
+		<div class="radioOptions">
+			<label><input type="radio" name="engine" value="google">Google </label>
+			<label><input type="radio" name="engine" value="duck">DuckDuckGo </label>
+			<label><input type="radio" name="engine" value="bing">Bing </label>
+			<label><input type="radio" name="engine" value="ask">Ask </label>
+		</div>
+		<input type="submit" value="Go!" />
 	</form>
 
 </body>
